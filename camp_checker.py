@@ -21,8 +21,6 @@ def filter_available_campsite_days(all_campsites):
                     "site": camp['site'],
                     "loop": camp['loop'],
                 })
-    open_site_len = len(available_camp_list)
-    print(f'Number of available campsites: {open_site_len}')
     return available_camp_list
 
 def _print_available_sites(formatted_campsite_list=[]):
@@ -31,12 +29,13 @@ def _print_available_sites(formatted_campsite_list=[]):
 
 
 def _get_reservable_dates_for_camp(camp_key, year, month, day):
-    '''Returns the number of yosemite available day passes on a given day of the year.
+    '''Returns yosemite campsites available for a given month.
 
     Arguments:
+        camp_key (str): string according to CAMP_MAP
         year (str): The year, ie, 2020
         month (str): The month, ie, 09
-        day (str): The day, ie, 04
+        day (str): The day, ie, 01
     '''
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36'
     headers={'user-agent': user_agent}
@@ -57,17 +56,14 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
     resp = json.loads(response.content)
     available = filter_available_campsite_days(resp['campsites'])
     _print_available_sites(available)
+
+    open_site_len = len(available)
+    print(f'Number of available campsites: {open_site_len}')
+
     return available
 
 
 def notify_when_available(camp_key, year=2020, month=9, day=1):
-    # counter = 0
-    # while len(_get_reservable_dates_for_camp(camp_key, year, month, day)) == 0:
-        # counter += 1
-        # print(f'Still unavailable on {year}, {month}, {day}. Trying again... attempt #{counter}')
-        # Check every 5 minutes
-        # time.sleep(300)
-
     if len(_get_reservable_dates_for_camp(camp_key, year, month, day)) == 0:
          print(f'Still unavailable on {year}, {month}, {day}. Try again later...')
     else:

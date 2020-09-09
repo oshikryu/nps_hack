@@ -6,5 +6,5 @@ CAMP_MAP = {
     "tuolumne_meadows": 232448,
 }
 
-ISO_WEEKDAY_MAPPING = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+ISO_WEEKDAY_MAPPING = [None, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
