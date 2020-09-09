@@ -1,3 +1,22 @@
 # nps_hack
 A scripts to poll the NPS website for yosemite day passes that free up.
-Simply save this file somethere on your Apple computer and run `python nps_hack.py`. You might need install Anaconda python in order to run this since it uses the "requests" module above.
+
+Install related libraries:
+```
+   pip3 install -r requirements.txt
+```
+
+Run day pass script: 
+```
+   python3 yosemite_day_pass.py
+```
+
+Run upper pines campsite script: 
+```
+   python3 upper_pines_camping.py
+```
+
+Run all yosemite campsites check: 
+```
+   python3 check-all-camps.py
+```
