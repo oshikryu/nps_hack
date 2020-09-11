@@ -42,8 +42,8 @@ def notify_when_day_pass_is_available(year=2020, month=9, day=1):
 # TODO: Replace this with the dates you want
 date_args = {
     "year": '2020',
-    "month": '09',
-    "day": '11'
+    "month": '10',
+    "day": '17'
 };
 
 notify_when_day_pass_is_available(**date_args)
