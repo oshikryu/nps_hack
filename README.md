@@ -45,5 +45,5 @@ button returned:OK
 
 Run all yosemite campsites check: 
 ```
-   python3 check-all-camps.py
+   python3 check-future-camps.py
 ```

@@ -2,6 +2,8 @@ import requests
 import json
 import time
 import subprocess
+from datetime import datetime
+from calendar import monthrange
 
 def _get_number_of_available_day_passes_on_given_day(year, month, day):
     '''Returns the number of yosemite available day passes on a given day of the year.
@@ -39,11 +41,18 @@ def notify_when_day_pass_is_available(year=2020, month=9, day=1):
     subprocess.call("osascript -e '{}'".format(applescript), shell=True)
 
 
-# TODO: Replace this with the dates you want
+year = str(datetime.now().year)
+month = f'{datetime.now().month:02}' # 0-padded month integer
+day = '01'
 date_args = {
-    "year": '2020',
-    "month": '10',
-    "day": '17'
-};
+    "year": year,
+    "month": month,
+    "day": day,
+}
+month, END_MONTH = monthrange(datetime.now().year, datetime.now().month)
 
-notify_when_day_pass_is_available(**date_args)
+while int(day) < END_MONTH:
+    notify_when_day_pass_is_available(**date_args)
+    day = int(day) + 1
+    day = f'{day:02}'
+

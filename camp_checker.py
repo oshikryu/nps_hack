@@ -15,9 +15,9 @@ def filter_available_campsite_days(all_campsites):
                 date_obj = dateutil.parser.parse(date_str)
                 day_of_week = ISO_WEEKDAY_MAPPING[date_obj.isoweekday()]
                 available_camp_list.append({
-                    "status": reserve_status,
-                    "date": date_str,
                     "day_of_week": day_of_week,
+                    "date": date_str,
+                    "status": reserve_status,
                     "site_id": camp['campsite_id'],
                     "site": camp['site'],
                     "loop": camp['loop'],
@@ -72,4 +72,4 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
         loc = CAMP_MAP[camp_key]
         print(f'Recreation.gov url: https://www.recreation.gov/camping/campgrounds/{loc}')
 
-        webbrowser.open(f'https://www.recreation.gov/camping/campgrounds/{loc}', new=2)
+        #  webbrowser.open(f'https://www.recreation.gov/camping/campgrounds/{loc}', new=2)
