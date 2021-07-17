@@ -6,6 +6,7 @@ from datetime import date, datetime
 import dateutil.parser
 from consts import BAD_STATUSES, CAMP_MAP, ISO_WEEKDAY_MAPPING
 import webbrowser
+from twilio_utils import send_sms
 
 def filter_available_campsite_days(all_campsites):
     available_camp_list = []
@@ -66,10 +67,15 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
 
 def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day):
     if len(_get_reservable_dates_for_camp(camp_key, year, month, day)) == 0:
-         print(f'None available for {month}/{year}. Try again later...')
+        print(f'None available for {month}/{year}. Try again later...')
     else:
         print(f'Campsites are available for {month}/{year}')
-        loc = CAMP_MAP[camp_key]
-        print(f'Recreation.gov url: https://www.recreation.gov/camping/campgrounds/{loc}')
 
-        #  webbrowser.open(f'https://www.recreation.gov/camping/campgrounds/{loc}', new=2)
+        # format and send message
+        loc = CAMP_MAP[camp_key]
+        website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}'
+        message_body = f'Campsites available for {camp_key}! Go here: {website_url}'
+        send_sms(message_body)
+
+        # TODO: uncomment to enable direct website opening
+        # webbrowser.open(website_url, new=2)

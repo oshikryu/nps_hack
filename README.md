@@ -3,20 +3,43 @@ A scripts to poll the NPS website for yosemite day passes that free up.
 
 Install related libraries:
 ```
-   pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
-Run day pass script: 
+### Install twilio dependencies
+
+```
+brew tap twilio/brew && brew install twilio
+```
+
+Set your twilio env variables for notifications in a .env file or `export` explicitly:
+```
+TWILIO_ACCOUNT_SID="YOUR SID"
+TWILIO_AUTH_TOKEN="YOUR AUTH TOKEN"
+TWILIO_FROM_PHONE=15551234567
+PHONE=15551234567
+```
+
+### Run scripts
+Comment out the REAL and TEST env variables
+
+#### Check all camps: 
+To run with twilio sms notifications, use the `-t` flag in args
+```
+  python3 check-future-camps.py -t
+```
+
+#### Run day pass script: 
 ```
    python3 yosemite_day_pass.py
 ```
 
-Run upper pines campsite script: 
+#### Run upper pines campsite script: 
 ```
    python3 upper_pines_camping.py
 ```
 
-Example output for upper pines:
+#### Example output for upper pines:
 ```
 ryuta:~/projects/nps_hack ∴ python3 upper_pines_camping.py                                                                                                                                                                                                       
 Number of available campsites: 18
@@ -43,7 +66,5 @@ Recreation.gov url: https://www.recreation.gov/camping/campgrounds/232447
 button returned:OK
 ```
 
-Run all yosemite campsites check: 
-```
-   python3 check-future-camps.py
-```
+### TODO
+- add timeout loop
