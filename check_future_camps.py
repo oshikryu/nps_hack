@@ -24,4 +24,6 @@ def main():
         month = int(month) + 1
         month = f'{month:02}'
 
-main()
+if __name__ == "__main__":
+    # execute only if run as a script
+    main()

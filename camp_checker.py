@@ -1,4 +1,5 @@
 import requests
+import sys
 import json
 import time
 import subprocess
@@ -70,7 +71,9 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
 
 
 def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day):
+    opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
     results = _get_reservable_dates_for_camp(camp_key, year, month, day)
+
     if len(results) == 0:
         print(f'None available for {month}/{year}. Try again later...')
     else:
@@ -83,5 +86,5 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
         message_body = f'Campsites available for {camp_key}! Go here: {website_url}'
         send_sms(message_body)
 
-        # TODO: uncomment to enable direct website opening
-        # webbrowser.open(website_url, new=2)
+        if "-b" in opts:
+            webbrowser.open(website_url, new=2)

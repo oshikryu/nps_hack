@@ -3,6 +3,7 @@ from datetime import datetime
 import time
 
 while True:
-  main()
-  print('--------------')
-  time.sleep(180)
+    print(str(datetime.now()))
+    main()
+    print('--------------')
+    time.sleep(30)

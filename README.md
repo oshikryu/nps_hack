@@ -22,17 +22,21 @@ PHONE=15551234567
 
 ### Run scripts
 Comment out the REAL and TEST env variables
+#### arguments
+```
+-t # run twilio SMS notification
+-b # open browser if a campsite is available
+```
 
-#### Check all camps (with SMS notification): 
-To run with twilio sms notifications, use the `-t` flag in args
+#### Check all camps: 
 ```
 python3 check_future_camps.py -t
 ```
 
-
 #### Infinite loop watcher
+Default timeout is 30s
 ```
-python3 loop.py -t
+python3 loop.py -t -b
 ```
 
 #### Run day pass script: 
@@ -71,6 +75,3 @@ Campsites are available for 09/2020
 Recreation.gov url: https://www.recreation.gov/camping/campgrounds/232447
 button returned:OK
 ```
-
-### TODO
-- add timeout loop
