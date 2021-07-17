@@ -56,6 +56,10 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
         print(f'{response.content}')
 
     resp = json.loads(response.content)
+    if (not resp or not resp['campsites']):
+        print('No valid response'.format(resp))
+        return []
+
     available = filter_available_campsite_days(resp['campsites'])
     _print_available_sites(available)
 
@@ -66,10 +70,12 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
 
 
 def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day):
-    if len(_get_reservable_dates_for_camp(camp_key, year, month, day)) == 0:
+    results = _get_reservable_dates_for_camp(camp_key, year, month, day)
+    if len(results) == 0:
         print(f'None available for {month}/{year}. Try again later...')
     else:
         print(f'Campsites are available for {month}/{year}')
+        print(results)
 
         # format and send message
         loc = CAMP_MAP[camp_key]

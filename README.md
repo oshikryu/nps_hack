@@ -23,20 +23,26 @@ PHONE=15551234567
 ### Run scripts
 Comment out the REAL and TEST env variables
 
-#### Check all camps: 
+#### Check all camps (with SMS notification): 
 To run with twilio sms notifications, use the `-t` flag in args
 ```
-  python3 check-future-camps.py -t
+python3 check_future_camps.py -t
+```
+
+
+#### Infinite loop watcher
+```
+python3 loop.py -t
 ```
 
 #### Run day pass script: 
 ```
-   python3 yosemite_day_pass.py
+python3 yosemite_day_pass.py
 ```
 
 #### Run upper pines campsite script: 
 ```
-   python3 upper_pines_camping.py
+python3 upper_pines_camping.py
 ```
 
 #### Example output for upper pines:
