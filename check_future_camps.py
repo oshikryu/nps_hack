@@ -6,8 +6,8 @@ def main():
     year = str(datetime.now().year)
     month = f'{datetime.now().month:02}' # 0-padded month integer
     day = '01' # NOTE: month query only accepts the first of the month
-    if int(month) < 12:
-        END_MONTH = datetime.now().month + 1
+    if int(month) < 11:
+        END_MONTH = datetime.now().month + 2
     else:
         END_MONTH = 1
 

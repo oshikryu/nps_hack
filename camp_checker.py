@@ -18,7 +18,7 @@ def filter_available_campsite_days(all_campsites):
                 day_of_week = ISO_WEEKDAY_MAPPING[date_obj.isoweekday()]
                 available_camp_list.append({
                     "day_of_week": day_of_week,
-                    "date": date_str,
+                    "date": f"{date_obj.year}-{date_obj.month}-{date_obj.day}",
                     "status": reserve_status,
                     "site_id": camp['campsite_id'],
                     "site": camp['site'],
@@ -81,13 +81,22 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
         # format and send message
         loc = CAMP_MAP[camp_key]
         website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}'
-        info = [f"{obj.date} {obj.day_of_week} {obj.site}" for obj in results]
+        info = [f"{obj.get('day_of_week')} {obj.get('date')}" for obj in results]
         message_body = f"\
         {camp_key}\n\
         {info} \n\
         {website_url}"
         print(message_body)
         send_sms(message_body)
+
+        if "-o" in opts:
+            # save outut to file
+            file1 = open("output.txt", "a")
+            file1.write(str(datetime.now()))
+            file1.write("\n")
+            file1.write(message_body)
+            file1.write("\n")
+            file1.close()
 
         if "-b" in opts:
             webbrowser.open(website_url, new=2)

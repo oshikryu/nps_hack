@@ -21,11 +21,13 @@ PHONE=15551234567
 ```
 
 ### Run scripts
-Comment out the REAL and TEST env variables
+- Comment out the REAL and TEST env variables
+
 #### arguments
 ```
 -t # run twilio SMS notification
 -b # open browser if a campsite is available
+-o # output for availability captured in output.txt
 ```
 
 #### Check all camps: 
