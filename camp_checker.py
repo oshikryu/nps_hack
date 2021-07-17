@@ -57,7 +57,7 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
         print(f'{response.content}')
 
     resp = json.loads(response.content)
-    if (not resp or not resp['campsites']):
+    if (not resp or not resp.get('campsites')):
         print('No valid response'.format(resp))
         return []
 
@@ -77,13 +77,16 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
     if len(results) == 0:
         print(f'None available for {month}/{year}. Try again later...')
     else:
-        print(f'Campsites are available for {month}/{year}')
-        print(results)
 
         # format and send message
         loc = CAMP_MAP[camp_key]
         website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}'
-        message_body = f'Campsites available for {camp_key}! Go here: {website_url}'
+        info = [f"{obj.date} {obj.day_of_week} {obj.site}" for obj in results]
+        message_body = f"\
+        {camp_key}\n\
+        {info} \n\
+        {website_url}"
+        print(message_body)
         send_sms(message_body)
 
         if "-b" in opts:
