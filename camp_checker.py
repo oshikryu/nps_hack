@@ -9,6 +9,7 @@ from consts import BAD_STATUSES, CAMP_MAP, ISO_WEEKDAY_MAPPING
 import webbrowser
 from twilio_utils import send_sms
 
+MATCH_ME = '2021-7-30'
 def filter_available_campsite_days(all_campsites):
     available_camp_list = []
     for key, camp in all_campsites.items():
@@ -16,14 +17,27 @@ def filter_available_campsite_days(all_campsites):
             if reserve_status not in BAD_STATUSES:
                 date_obj = dateutil.parser.parse(date_str)
                 day_of_week = ISO_WEEKDAY_MAPPING[date_obj.isoweekday()]
+                desired_date = f"{date_obj.year}-{date_obj.month}-{date_obj.day}"
+
+
                 available_camp_list.append({
                     "day_of_week": day_of_week,
-                    "date": f"{date_obj.year}-{date_obj.month}-{date_obj.day}",
+                    "date": desired_date,
                     "status": reserve_status,
                     "site_id": camp['campsite_id'],
                     "site": camp['site'],
                     "loop": camp['loop'],
                 })
+                if desired_date == MATCH_ME:
+                    applescript = """
+                    display dialog "CAMPSITE AVAILABLE." ¬
+                    with title "Campsite" ¬
+                    with icon caution ¬
+                    buttons {"OK"}
+                    """
+
+                    subprocess.call("osascript -e '{}'".format(applescript), shell=True)
+
     return available_camp_list
 
 def _print_available_sites(formatted_campsite_list=[]):
@@ -74,10 +88,8 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
     opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
     results = _get_reservable_dates_for_camp(camp_key, year, month, day)
 
-    if len(results) == 0:
-        print(f'None available for {month}/{year}. Try again later...')
-    else:
-
+    #  print(f'None available for {month}/{year}. Try again later...')
+    if len(results) != 0:
         # format and send message
         loc = CAMP_MAP[camp_key]
         website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}'

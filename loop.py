@@ -6,4 +6,4 @@ while True:
     print(str(datetime.now()))
     main()
     print('--------------')
-    time.sleep(30)
+    time.sleep(15)
