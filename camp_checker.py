@@ -19,7 +19,6 @@ def filter_available_campsite_days(all_campsites):
                 day_of_week = ISO_WEEKDAY_MAPPING[date_obj.isoweekday()]
                 desired_date = f"{date_obj.year}-{date_obj.month}-{date_obj.day}"
 
-
                 available_camp_list.append({
                     "day_of_week": day_of_week,
                     "date": desired_date,
@@ -29,14 +28,16 @@ def filter_available_campsite_days(all_campsites):
                     "loop": camp['loop'],
                 })
                 if desired_date == MATCH_ME:
-                    applescript = """
-                    display dialog "CAMPSITE AVAILABLE." ¬
-                    with title "Campsite" ¬
-                    with icon caution ¬
-                    buttons {"OK"}
-                    """
-
-                    subprocess.call("osascript -e '{}'".format(applescript), shell=True)
+                    message_body = f"Campsite available! {camp['loop']}"
+                    send_sms(message_body)
+                    #  applescript = """
+                    #  display dialog "CAMPSITE AVAILABLE." ¬
+                    #  with title "Campsite" ¬
+                    #  with icon caution ¬
+                    #  buttons {"OK"}
+                    #  """
+                    #
+                    #  subprocess.call("osascript -e '{}'".format(applescript), shell=True)
 
     return available_camp_list
 
@@ -70,6 +71,10 @@ def _get_reservable_dates_for_camp(camp_key, year, month, day):
     if response.status_code == 400:
         print(f'{response.content}')
 
+    if response is None or response.content is None:
+        print('None response')
+        return []
+
     resp = json.loads(response.content)
     if (not resp or not resp.get('campsites')):
         print('No valid response'.format(resp))
@@ -99,7 +104,7 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
         {info} \n\
         {website_url}"
         print(message_body)
-        send_sms(message_body)
+        #  send_sms(message_body)
 
         if "-o" in opts:
             # save outut to file

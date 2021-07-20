@@ -5,5 +5,5 @@ import time
 while True:
     print(str(datetime.now()))
     main()
+    time.sleep(26)
     print('--------------')
-    time.sleep(15)

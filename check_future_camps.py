@@ -7,7 +7,7 @@ def main():
     month = f'{datetime.now().month:02}' # 0-padded month integer
     day = '01' # NOTE: month query only accepts the first of the month
     if int(month) < 11:
-        END_MONTH = datetime.now().month + 2
+        END_MONTH = datetime.now().month + 1
     else:
         END_MONTH = 1
 
