@@ -28,16 +28,11 @@ def filter_available_campsite_days(all_campsites):
                     "loop": camp['loop'],
                 })
                 if desired_date == MATCH_ME:
-                    message_body = f"Campsite available! {camp['loop']}"
+                    loc = CAMP_MAP[camp['loop']]
+                    website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}/availability'
+                    message_body = f"Campsite available for {camp['loop']} {website_url}"
                     send_sms(message_body)
-                    #  applescript = """
-                    #  display dialog "CAMPSITE AVAILABLE." ¬
-                    #  with title "Campsite" ¬
-                    #  with icon caution ¬
-                    #  buttons {"OK"}
-                    #  """
-                    #
-                    #  subprocess.call("osascript -e '{}'".format(applescript), shell=True)
+                    webbrowser.open(website_url, new=2)
 
     return available_camp_list
 
@@ -97,14 +92,13 @@ def notify_when_available(camp_key, year=datetime.now().year, month=datetime.now
     if len(results) != 0:
         # format and send message
         loc = CAMP_MAP[camp_key]
-        website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}'
-        info = [f"{obj.get('day_of_week')} {obj.get('date')}" for obj in results]
+        website_url = f'https://www.recreation.gov/camping/campgrounds/{loc}/availability'
+        info = [f"{obj.get('day_of_week')} {obj.get('date')} {obj.get('loop')}" for obj in results]
         message_body = f"\
         {camp_key}\n\
         {info} \n\
         {website_url}"
         print(message_body)
-        #  send_sms(message_body)
 
         if "-o" in opts:
             # save outut to file
